@@ -65,7 +65,7 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
-    
+
 # Dcotrine behaviors extension
 knp_doctrine_behaviors:
     sluggable: true

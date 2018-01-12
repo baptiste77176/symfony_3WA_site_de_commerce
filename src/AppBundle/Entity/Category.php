@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * Category
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+    use ORMBehaviors\Translatable\Translatable;
     /**
      * @var int
      *
@@ -21,20 +23,11 @@ class Category
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=150, unique=true)
-     */
-    private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
      */
-    private $description;
-
+    private $products;
 
     /**
      * Get id
@@ -46,52 +39,46 @@ class Category
         return $this->id;
     }
 
+
     /**
-     * Set name
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add product
      *
-     * @param string $name
+     * @param \AppBundle\Entity\Product $product
      *
      * @return Category
      */
-    public function setName($name)
+    public function addProduct(\AppBundle\Entity\Product $product)
     {
-        $this->name = $name;
+        $this->products[] = $product;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Remove product
      *
-     * @return string
+     * @param \AppBundle\Entity\Product $product
      */
-    public function getName()
+    public function removeProduct(\AppBundle\Entity\Product $product)
     {
-        return $this->name;
+        $this->products->removeElement($product);
     }
 
     /**
-     * Set description
+     * Get products
      *
-     * @param string $description
-     *
-     * @return Category
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setDescription($description)
+    public function getProducts()
     {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        return $this->products;
     }
 }
-
