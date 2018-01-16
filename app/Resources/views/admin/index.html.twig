@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row my-4">
+        <div class="col">
+            <h1 class="mb-4">Tableau de bord</h1>
+            <p>Bonjour {{ app.user.username }}</p>
+            {#
+
+                is_granted: tester le r�le de l'utilisateur ou son �tat de connexion
+                    IS_AUTHENTICATED_FULLY : connect�
+            #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{  url('security.logout') }}">Déconnexion</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

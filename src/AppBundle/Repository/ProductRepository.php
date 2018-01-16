@@ -10,4 +10,34 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getProductsByLocale($locale)
+    {
+        $result = $this->createQueryBuilder('products')
+            ->select('translations.name, products.price, products.image')
+            ->join('products.translations','translations')
+            ->where('translations.locale = :paramTrans')
+            ->setParameters([
+                'paramTrans' => $locale
+            ])
+            ->orderBy('RAND()')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getArrayResult();
+        return $result;
+    }
+    public function getProduct($categoryslug, $locale)
+    {
+        $result = $this->createQueryBuilder('product')
+            ->select(' product.price')
+            ->join('product.translations','translations')
+            ->where('translations.slug = :paramSlug')
+            ->setParameters([
+                'paramSlug'=> $categoryslug
+            ])
+
+            ->getQuery()
+            ->getArrayResult();
+        return $result;
+    }
 }

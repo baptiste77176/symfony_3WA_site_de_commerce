@@ -46,7 +46,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             );
             foreach ($this->locales as $key => $value)
             {
-                // faker en fonction de la valeur du parametre il genere une phrase en fr ou ganglais via realtext
+                // faker en fonction de la valeur du parametre il genere une phrase en fr ou anglais via realtext
                 $faker = \Faker\Factory::create($value);
 
                 // créer des valeurs traduites pour les propriétés

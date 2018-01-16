@@ -3,10 +3,40 @@
 security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    #fournisseur des comptes utilisateurs
     providers:
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    admin:
+                        password: $2y$13$j1e5uNwOB9qHiczxrLOlteLgiebVkPvCS8zNNsPAXDPqrYUc/20aO
+                        roles: ROLE_ADMIN
 
+        our_db_provider:
+            entity: #va chercher une entité
+                class: App\Entity\User # va chercher l'entité user
+                property: username # identifiant selectionner pour la connexion
+    #créer un provider regroupant les autres providers (admin+user)
+        all_providers:
+            chain:
+                providers: [in_memory, our_db_provider]
+
+
+    #encoders : hachage utiliser pour les mots de passe
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+        AppBunlde\Entity\User:
+            algorithm: bcrypt
+
+
+    #la clée hérite des privilège de la valeru
+    #par ex: le ROLE_ADMIN herite du ROLE_USER
+    role_hierarchy:
+        #ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_ADMIN: ROLE_USER
+    access_control:
+        - { path: ^/(fr|en)/admin, roles: ROLE_ADMIN}
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -21,4 +51,17 @@ security:
             #http_basic: ~
 
             # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+            #login_path et chek_path cible le nom d'une route
+            #default_target_path page d'attrissage aprer connexion
+            form_login:
+                login_path: security.login
+                check_path: security.login
+                default_target_path: admin.homepage.index
+                #path : nom de la route de déconnexion
+                #target : page d'attérissage aprés deconnexion
+            logout:
+                path: security.logout
+                target: homepage
+
+    #utiliser le regroupements de provviders
+            provider: all_providers

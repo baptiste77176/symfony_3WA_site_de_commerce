@@ -10,4 +10,38 @@ namespace AppBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getCategoriesByLocaleWithProductsCount($locale)
+    {
+        $result = $this->createQueryBuilder('category')
+        ->select('translations.name, COUNT(products.id) AS numb, translations.slug')
+        ->join('category.translations','translations')
+        ->join('category.products','products')
+        ->groupBy('translations.name')
+        ->where('translations.locale = :paramTrans')
+        ->setParameters([
+            'paramTrans' => $locale
+        ])
+        ->getQuery()
+        ->getArrayResult();
+        return $result;
+    }
+    public function getCategoryBySlugAndLocale($slug, $locale)
+    {
+        $result = $this->createQueryBuilder('category')
+            ->select('translations.slug, translations.locale, ptranslations.name, products.price, products.image, translations.name AS tname, ptranslations.description, ptranslations.slug AS pslug ')
+            ->join('category.translations','translations')
+            ->join('category.products','products')
+            ->join('products.translations','ptranslations')
+            ->where('translations.slug = :paramSlug')
+            ->andWhere('translations.locale = :paramLocale')
+            ->andWhere('ptranslations.locale = :paramLocale')
+            ->setParameters([
+                'paramSlug'=>$slug,
+                'paramLocale'=>$locale,
+
+            ])
+            ->getQuery()
+            ->getArrayResult();
+        return $result;
+    }
 }

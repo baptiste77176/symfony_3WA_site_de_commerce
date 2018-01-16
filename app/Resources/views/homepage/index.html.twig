@@ -1,9 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row">
+    <div class="row my-4">
         <div class="col">
-            <h1>Acceuil</h1>
+            <h1 class="mb-4">{{ 'homepage.categories'|trans |capitalize }}</h1>
+            <p>{% for key, value in categories %}
+                    <a href="{{ url('category.index',{slug :value.slug}) }}" class="btn btn-primary">
+                        {{ value.name }} <span class="badge badge-light">{{ value.numb }}</span>
+                    </a>
+                {% endfor %}
+
+            </p>
+        </div>
+    </div>
+    <div class="row my-4">
+
+        <div class="col">
+
+            <h1>{{ 'homepage.ideas'|trans |capitalize }}</h1>
+            <div class="row">
+                    {% for key, value in products %}
+
+                <div class="col-sm-4">
+                    <h2>{{ value.name }}</h2>
+                    <img src="{{asset('img/product/'~value.image) }}" class="img-fluid" alt="">
+                    <p class="h5 my-2">{{value.price|localizedcurrency('EUR') }}</p>
+                    <p>
+                        <a href="#" class="btn btn-primary">
+                            <span class="fas fa-eye"></span>
+                            {{ 'homepage.consult' |trans |capitalize }}
+                        </a>
+                    </p>
+                </div>
+                    {% endfor %}
+
+
+            </div>
         </div>
     </div>
 {% endblock %}
