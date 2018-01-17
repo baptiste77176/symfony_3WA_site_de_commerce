@@ -1,4 +1,8 @@
 {%  extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
 {% block body %}
  <h1>s'enregistrer</h1>
     {{ form_start(form, {'attr' : {'novalidate' : 'novalidate'}}) }}
@@ -18,5 +22,9 @@
         <input type="submit" class="btn btn-info" name="submit" value="Valider">
     </p>
 
+
     {{ form_end(form) }}
+    {{ form_errors(form.username) }}
+    {{ form_errors(form.password) }}
+    {{ form_errors(form.email) }}
 {%  endblock %}

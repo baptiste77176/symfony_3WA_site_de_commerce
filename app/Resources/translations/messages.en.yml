@@ -2,3 +2,6 @@ homepage:
     categories: catégories
     ideas : need ideas ?
     consult: consult
+
+flash_message:
+    new_user: Account created

@@ -3,40 +3,43 @@
 security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    #fournisseur des comptes utilisateurs
+    # providers : fournisseur des comptes utilisateurs
     providers:
         in_memory:
             memory:
                 users:
                     admin:
-                        password: $2y$13$j1e5uNwOB9qHiczxrLOlteLgiebVkPvCS8zNNsPAXDPqrYUc/20aO
+                        password: $2y$13$3UOfXNdzRiTqPX1duf73C.NvbTs0C/fWLr0WmxEnHjl/bambf1WRK
                         roles: ROLE_ADMIN
 
         our_db_provider:
-            entity: #va chercher une entité
-                class: App\Entity\User # va chercher l'entité user
-                property: username # identifiant selectionner pour la connexion
-    #créer un provider regroupant les autres providers (admin+user)
+            entity:
+                class: AppBundle\Entity\User
+                property: username
+
+        # cr�er un provider regroupant les autres providers
         all_providers:
             chain:
-                providers: [in_memory, our_db_provider]
+                providers: [ in_memory, our_db_provider ]
 
-
-    #encoders : hachage utiliser pour les mots de passe
+    # encoders : hachage utilis� par les mots de passe
     encoders:
         Symfony\Component\Security\Core\User\User:
             algorithm: bcrypt
-        AppBunlde\Entity\User:
+
+        AppBundle\Entity\User:
             algorithm: bcrypt
 
-
-    #la clée hérite des privilège de la valeru
-    #par ex: le ROLE_ADMIN herite du ROLE_USER
+    # role_hierarchy : cl� h�rite des privil�ges de la valeur
+    # par ex. ROLE_ADMIN h�rite de ROLE_USER
     role_hierarchy:
         #ROLE_SUPER_ADMIN: ROLE_ADMIN
         ROLE_ADMIN: ROLE_USER
+
     access_control:
-        - { path: ^/(fr|en)/admin, roles: ROLE_ADMIN}
+        - { path: ^/(fr|en)/admin, roles: ROLE_ADMIN }
+        - { path: ^/(fr|en)/profile, roles: ROLE_USER }
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -51,17 +54,47 @@ security:
             #http_basic: ~
 
             # https://symfony.com/doc/current/security/form_login_setup.html
-            #login_path et chek_path cible le nom d'une route
-            #default_target_path page d'attrissage aprer connexion
+            # login_path et check_path cible le nom d'une route
+            # default_target_path: page d'atterrissage apr�s connexion
             form_login:
                 login_path: security.login
                 check_path: security.login
-                default_target_path: admin.homepage.index
-                #path : nom de la route de déconnexion
-                #target : page d'attérissage aprés deconnexion
+                default_target_path: security.redirect.by.role
+
+            # path : nom de la route de d�connexion
+            # target: page d'atterrissage apr�s d�connexion
             logout:
                 path: security.logout
                 target: homepage
 
-    #utiliser le regroupements de provviders
+            # utiliser le regroupement de providers
             provider: all_providers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

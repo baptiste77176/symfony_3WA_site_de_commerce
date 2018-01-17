@@ -38,4 +38,24 @@ class SecurityController extends Controller
     {
         //méthode non appelée par symfony
     }
+    /**
+     * @Route("/redirect-by-role", name="security.redirect.by.role")
+     */
+    public function redirectByRole()
+    {//recuperation de l'utilisisateur
+        $user = $this->getUser();
+
+        // récupération du role
+        $roles = $user->getRoles();
+        //dump($roles);exit;
+
+        //test sur le role
+        if (in_array('ROLE_ADMIN',$roles))
+        {
+            return $this->redirectToRoute('admin.homepage.index');
+        }
+        else{
+            return $this->redirectToRoute('profile.homepage.index');
+        }
+    }
 }
