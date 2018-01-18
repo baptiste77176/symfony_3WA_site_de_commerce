@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ProductControllerTest extends WebTestCase
 {
-    /*@dataprovider  :forubnissuer de données
+    /*@dataprovider  :fournnisseur de données
     - doit retournée un array de donneés
     - les entrées du tableau devienne des parametre dans la fonction callback
      * */

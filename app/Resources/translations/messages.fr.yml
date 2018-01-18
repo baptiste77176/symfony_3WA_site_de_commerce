@@ -3,5 +3,8 @@ homepage:
     ideas : besoin d'idées ?
     consult: consulter
 
+register:
+    title: s'enregistrer
+
 flash_message:
     new_user: Votre compte a été crée

@@ -57,9 +57,10 @@ class AccountController extends Controller
             //element declencheur = $dispatcher
             //evenement
             $event = new AccountCreateEvent();
+            $event->setUser($data);
 
             $dispatcher->dispatch(AccountEvents::CREATE, $event);
-            exit;
+
             // redirection
             return $this->redirectToRoute('security.login');
 

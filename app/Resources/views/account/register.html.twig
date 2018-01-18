@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
- <h1>s'enregistrer</h1>
+ <h1>{{'register.title' | trans | capitalize }}</h1>
     {{ form_start(form, {'attr' : {'novalidate' : 'novalidate'}}) }}
     <p>
         {{ form_label(form.username, 'Identifiant :') }}

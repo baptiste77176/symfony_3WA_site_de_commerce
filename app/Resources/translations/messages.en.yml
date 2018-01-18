@@ -3,5 +3,9 @@ homepage:
     ideas : need ideas ?
     consult: consult
 
+register:
+    title: signup
+
+
 flash_message:
     new_user: Account created
