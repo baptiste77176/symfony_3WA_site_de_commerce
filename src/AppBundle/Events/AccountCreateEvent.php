@@ -17,6 +17,7 @@ class AccountCreateEvent extends Event
     /*
      * l'evenement sert d'interface entre le declencheur et le subscripteur
      * */
+
     private $user;
 
     /**

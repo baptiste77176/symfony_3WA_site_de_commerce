@@ -70,5 +70,9 @@ class AccountEventSubscriber implements EventSubscriberInterface
 
 
     }
+    /*public function sendMailToForgotAccount()
+    {
+
+    }*/
 
 }

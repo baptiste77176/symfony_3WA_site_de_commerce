@@ -10,8 +10,10 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\userToken;
 use AppBundle\Events\AccountCreateEvent;
 use AppBundle\Events\AccountEvents;
+use AppBundle\Form\UserTokenType;
 use AppBundle\Form\UserType;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -69,4 +71,47 @@ class AccountController extends Controller
             'form'=>$form->createView()
         ]);
     }
+    /**
+     * @Route("/password-forgot", name="account.password.forgot")
+     *
+     */
+    public function passwordForgotAction(ManagerRegistry $doctrine,EventDispatcherInterface $dispatcher,Request $request):Response
+    {
+        $entity = new userToken();
+        $type = UserTokenType::class;
+        $form  = $this->createForm($type, $entity);
+        $form->handleRequest($request);
+       // dump($entity);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //récupération de la saisie
+            $data = $form->getData();
+
+
+            //insertion en base
+            $em = $doctrine->getManager();
+            $em->persist($data);
+            $em->flush();
+
+            // recherche de l'émail
+            $emailExist = $doctrine
+                ->getRepository(User::class)
+                ->findOneBy([
+                    'email' => $data->getUserEmail()
+                ])
+            ;
+            // recherche de la date
+            $dateRequest = $doctrine->getRepository(userToken::class)->getDateMax($data->getExpirationDate(), $data->getUserEmail());
+
+            dump($dateRequest);exit;
+        }
+
+        return $this->render('account/password.forgot.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
+
+
+
 }

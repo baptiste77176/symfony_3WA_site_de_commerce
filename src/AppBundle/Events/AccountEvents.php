@@ -20,4 +20,6 @@ class AccountEvents
     //account. delete function de la famille account
     const CREATE = 'account.create';
     const DELETE = 'account.delete';
+    const FORGOT = 'account.forgot';
+    const PASSWORD_FORGOT = 'account.passwordForgot';
 }
