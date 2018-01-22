@@ -14,16 +14,33 @@ class userTokenRepository extends \Doctrine\ORM\EntityRepository
     public function getDateMax($date, $mail)
     {
         $result = $this->createQueryBuilder('userToken')
-            ->select('userToken.expirationDate')
-            ->where('CURRENT_DATE() < :paramDate')
+            //->select('userToken.expirationDate')
+            //->where('NOW() < :paramDate')
             ->andWhere('userToken.userEmail = :paramMail')
 
             ->setParameters([
-                'paramDate' => $date,
+              //  'paramDate' => $date,
                 'paramMail' => $mail
             ])
             ->getQuery()
-            ->getArrayResult();
+            ->getOneOrNullResult();
+        return $result;
+    }
+   public function check($email, $token)
+    {
+        $result = $this->createQueryBuilder('userToken')
+            //->select('userToken.userEmail')
+            ->andWhere('userToken.userEmail = :paramMail')
+            ->andWhere('userToken.token = :paramToken')
+            ->andWhere('userToken.expirationDate > NOW()')
+
+            ->setParameters([
+                'paramMail' => $email,
+                'paramToken' => $token
+
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
         return $result;
     }
 }

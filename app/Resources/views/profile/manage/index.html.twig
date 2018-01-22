@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+    <div class="row my-4">
+        <div class="col">
+            <h1 class="mb-4">manage</h1>
+            {{ form_start(form, {'attr' : {'novalidate' : 'novalidate'}}) }}
+
+<p>
+    {{ form_label(form.address, 'addresse : ') }}
+    {{ form_widget(form.address) }}
+</p>
+            <p>
+                {{ form_label(form.zipcode, 'Code postal :') }}
+                {{ form_widget(form.zipcode) }}
+            </p>
+            <p>
+                {{ form_label(form.country, ' country:') }}
+                {{ form_widget(form.country) }}
+            </p>
+            <p>
+                {{ form_label(form.city, 'ville :') }}
+                {{ form_widget(form.city) }}
+            </p>
+            <input type="submit" class="btn btn-info" name="submit" value="Valider">
+
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+{% endblock %}
