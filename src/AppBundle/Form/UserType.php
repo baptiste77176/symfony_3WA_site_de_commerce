@@ -19,15 +19,19 @@ class UserType extends AbstractType
 {
 
     //injecter la pile de requete
+    private  $requestStack; // pour instancier le new
+    private $request;//pour le get _route
 
-    private $request;
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+        //quand on va chercher la branche master cela nous renvoie la meme requet que dans les controleurs
+        $this->request = $requestStack->getMasterRequest();
 
-     public function __construct(RequestStack $request)
-     {
+    }
 
-         //masterRequest : cibler la requete principale
-         $this->request = $request->getMasterRequest();
-     }
+
+
 
     /**
      * {@inheritdoc}
@@ -86,17 +90,17 @@ class UserType extends AbstractType
                 ]
             ]);
 
-        /*
+        /* dans un controlleur on injecte request et tout le reste request stack
          * écouteur : ecouter un seul événement
          * souscripteur : écouter plusieur événement
          * */
         //souscripteur
-        $subscriber = new UserTypeSubscriber();
+        $subscriber = new UserTypeSubscriber($this->requestStack);
         $builder->addEventSubscriber($subscriber);
 
 
         //écouteur
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event)//formevent $event plus ou moin egale a l'instance en corus
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event)//formevent $event plus ou moin egale a l'instance en cours
         {
             //recuperer le nom de la route
                 $route = $this ->request->get('_route');

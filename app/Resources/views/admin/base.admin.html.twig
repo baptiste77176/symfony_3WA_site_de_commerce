@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-4">
+        colonne de gauche
+        <div class="nav-pills">
+            <a href="{{ url('admin.category.index') }}" class="btn btn-primary">admin category</a>
+            <a href="{{ url('admin.homepage.index') }}" class="btn btn-primary"> profil homepage</a>
+        </div>
+
+
+    </div>
+
+    <div class="col-sm-8">
+        {% block colRight %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'admin/base.admin.html.twig' %}
+
+{% block colRight %}
+    <h1 class="mb-4">Catégories</h1>
+    {{ form_start(form,{'attr' : { 'novalidate' : 'novalidate'}}) }}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">FR</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">EN</a>
+        </li>
+
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <p>
+                {{ form_label(form.name_fr, 'Nom :') }}
+                {{ form_widget(form.name_fr) }}
+            </p>
+            <p>
+                {{ form_label(form.description_fr, 'Description :') }}
+                {{ form_widget(form.description_fr) }}
+            </p>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <p>
+                {{ form_label(form.name_en, 'Nom :') }}
+                {{ form_widget(form.name_en) }}
+            </p>
+            <p>
+                {{ form_label(form.description_en, 'Description :') }}
+                {{ form_widget(form.description_en) }}
+            </p>
+        </div>
+
+    </div>
+    <p>
+        <input type="submit" value="Valider" class="btn btn-primary">
+    </p>
+    {{ form_end(form) }}
+{% endblock %}

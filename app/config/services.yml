@@ -59,3 +59,7 @@ services:
     AppBundle\EventSubscriber\AuthenticationEventsSubscriber:
         arguments:
             $maxAuthenticationFailure: '%max_authentication_failure%'
+
+    AppBundle\Form\CategoryType:
+        arguments:
+            $locales: '%locales%'

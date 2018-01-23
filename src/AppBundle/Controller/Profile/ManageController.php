@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Profile;
 
 use AppBundle\Form\UserType;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class ManageController extends Controller
     /**
      * @Route("/manage", name="profile.manage.index")
      */
-    public function indexAction(Request $request):Response
+    public function indexAction(Request $request, ManagerRegistry $doctrine):Response
     {
         // récupération de l'utilisateur
         $user = $this->getUser();
@@ -29,10 +30,12 @@ class ManageController extends Controller
         $form = $this->createForm($type,$user);
         $form->handleRequest($request);
         //formulaire valide
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
-            dump($data);
+            $doctrine->getManager()->persist($data);
+            $doctrine->getManager()->flush();
+            $this->addFlash('notice', 'Votre profil a �t� compl�t�');
+            return $this->redirectToRoute('profile.homepage.index');
         }
 
         return $this->render('profile/manage/index.html.twig', [

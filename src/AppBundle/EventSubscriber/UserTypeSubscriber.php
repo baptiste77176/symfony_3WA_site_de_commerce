@@ -12,9 +12,19 @@ namespace AppBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserTypeSubscriber implements EventSubscriberInterface
 {
+
+    private $request;
+
+    public function __construct(RequestStack $request)
+    {
+
+        //masterRequest : cibler la requete principale
+        $this->request = $request->getMasterRequest();
+    }
     public static function getSubscribedEvents()
     {
         return [
@@ -24,7 +34,24 @@ class UserTypeSubscriber implements EventSubscriberInterface
 
     public function preSetData(FormEvent $event)
     {
-        dump('pre set data');
+        // le but est de recuperer la route
+        $route = $this->request->get('_route');
+
+
+        // r�cup�ration de la saisie
+        $data = $event->getData();
+
+        // formulaire
+        $form = $event->getForm();
+        dump($data, $form);
+
+        if ($route === 'profile.manage.index')
+        {
+            //suppression des champs qui ne nous interrese pas
+            $form->remove('username');
+            $form->remove('password');
+            $form->remove('email');
+        }
     }
 
 }
