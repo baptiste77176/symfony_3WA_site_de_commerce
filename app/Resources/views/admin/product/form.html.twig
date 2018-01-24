@@ -1,0 +1,12 @@
+{% extends 'admin/base.admin.html.twig' %}
+
+{% block colRight %}
+
+    <h1 class="mb-4">Product</h1>
+    {{ form_start(form,{'attr' : { 'novalidate' : 'novalidate'}}) }}
+
+    <p>
+        <input type="submit" value="Valider" class="btn btn-primary">
+    </p>
+    {{ form_end(form) }}
+{% endblock %}

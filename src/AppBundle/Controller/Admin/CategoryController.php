@@ -29,7 +29,7 @@ class CategoryController extends Controller
      * @Route("/category/form", name="admin.category.form", defaults={"id"= null})
      * @Route("/category/update/{id}", name="admin.category.update")
      */
-    public function formAction(ManagerRegistry $doctrine, Request $request, int $id):Response
+    public function formAction(ManagerRegistry $doctrine, Request $request, $id):Response
     {
 
 
@@ -76,6 +76,19 @@ class CategoryController extends Controller
         return $this->render('admin/category/index.html.twig', [
             'results' => $results
         ]);
+    }
+    /**
+     * @Route("/category/delete/{id}", name="admin.category.delete")
+     */
+    public function deleteAction(ManagerRegistry $doctrine,int $id):Response
+    {
+        $em = $doctrine->getManager();
+        $rc = $doctrine->getRepository(Category::class);
+        $entity = $rc->find($id);
+        $em->remove($entity);
+        $em->flush();
+        $this->addFlash('notice', 'la catgeorie a été suprimer');
+        return $this->redirectToRoute('admin.category.index');
     }
 
 }

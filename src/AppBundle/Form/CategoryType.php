@@ -15,16 +15,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CategoryType extends AbstractType
 {
     private $locales;
-    private $doctrine;
 
-    public function __construct(array $locales, ManagerRegistry $doctrine)
+
+    public function __construct(array $locales)
     {
         $this->locales = $locales;
-        $this->doctrine = $doctrine;
+
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //recuperation des donné du formulaire
+        $entity = $builder->getData();
        // créer plusieurs champs selon les langues
         foreach ($this->locales as $key => $value)
         {
@@ -37,12 +39,14 @@ class CategoryType extends AbstractType
             //double " pour concaterner comme ca
             $builder
                 ->add("name_$value", TextType::class,[
-                    'mapped' => false
+                    'mapped' => false,
+                    'data' => $entity->translate($value)->getName()
             ])
 
             //champs description
                 ->add("description_$value", TextareaType::class, [
-                    'mapped' => false
+                    'mapped' => false,
+                'data' => $entity->translate($value)->getDescription()
             ])
             ;
 

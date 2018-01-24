@@ -1,0 +1,37 @@
+{% extends 'admin/base.admin.html.twig' %}
+
+{% block colRight %}
+    <h1 class="mb-4">Catégories</h1>
+
+    <p><a href="#" class="btn btn-primary">Ajouter</a></p>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Nom</th>
+            <th>Photo</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for result in results %}
+            <tr>
+
+                <td>
+                    {{ result.translations['fr'].name  }}
+                </td>
+                <td>
+                    <img src="{{ asset("img/product/"~result.image)}}" class="img-responsive img-circle" />
+                </td>
+
+                <td>
+                    <a href="{{ url('admin.product.update', { 'id' : result.id}) }}" class="btn btn-warning">Modifier</a>
+                </td>
+                <td>
+                    <a href="{{ url('admin.product.delete', { 'id' : result.id}) }}" class="btn btn-danger">Modifier</a>
+                </td>
+
+
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

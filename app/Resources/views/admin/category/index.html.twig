@@ -3,7 +3,7 @@
 {% block colRight %}
     <h1 class="mb-4">Catégories</h1>
 
-    <p><a href="#" class="btn btn-primary">Ajouter</a></p>
+    <p><a href="{{ url('admin.category.form') }}" class="btn btn-primary">Ajouter</a></p>
 
     <table class="table table-striped">
         <tr>
@@ -20,7 +20,7 @@
                     <a href="{{ url('admin.category.update', { 'id' : result.id}) }}" class="btn btn-warning">Modifier</a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-danger">Supprimer</a>
+                    <a href="{{ url('admin.category.delete', {'id' : result.id}) }}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

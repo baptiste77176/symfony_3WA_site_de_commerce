@@ -63,3 +63,6 @@ services:
     AppBundle\Form\CategoryType:
         arguments:
             $locales: '%locales%'
+    AppBundle\Form\ProductType:
+            arguments:
+                $locales: '%locales%'

@@ -52,8 +52,9 @@ class Product
     /**
      * Many Features have One Product.
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      */
+    //onDelete permet de supprimer les category qui on des produit
     private $category;
 
     /**
