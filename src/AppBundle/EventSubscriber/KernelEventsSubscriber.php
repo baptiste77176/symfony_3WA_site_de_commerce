@@ -73,7 +73,7 @@ on dit au kernel que lon se sert de l'event kernelEvents on rajoute des action a
         //dump($content);exit;
 
         //remplacement de contenu si la key en session est true
-        if ($sessionValue)
+        if ($sessionValue === true)
         {
             $content = str_replace('<body>','<div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>Ce site utilise des cookies </strong>
