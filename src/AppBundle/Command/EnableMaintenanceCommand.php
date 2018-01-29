@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class EnableMaintenanceCommand extends Command
 {
     /*
-     * le but est de mettre en ligne une commande php bin/console doctrine:mainetance:enable avec true ou false pour mettre le site en maintenance ou pas 
+     * le but est de mettre en ligne une commande php bin/console doctrine:mainetance:enable avec true ou false pour mettre le site en maintenance ou pas
      * configuration de la commande
      *      setname: nom de la commande ; obligatoire
      *      setDescription: description

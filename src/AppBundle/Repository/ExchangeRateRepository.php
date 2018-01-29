@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\ExchangeRate;
+
 /**
  * ExchangeRateRepository
  *
@@ -10,4 +12,27 @@ namespace AppBundle\Repository;
  */
 class ExchangeRateRepository extends \Doctrine\ORM\EntityRepository
 {
+    //mise à jour des taux avec commandes
+//on ne peut pas typer rate en object avant la version 7.2 de php
+    public function updateExchangeRate($rates):int
+    {
+        //on accede a l'entity manager qui convient au update et delete
+
+        foreach($rates as $key => $value)
+        {
+            $results = $this->getEntityManager()->createQueryBuilder()
+            ->update(ExchangeRate::class, 'exchangeRate')
+            ->set('exchangeRate.taux',  ':value')
+            ->where('exchangeRate.code = :currency')
+            ->setParameters([
+                'value' => $value,
+                'currency' =>$key
+            ])
+            ->getQuery()
+            ->execute()
+            ;
+        }
+        return $results;
+    }
+
 }
