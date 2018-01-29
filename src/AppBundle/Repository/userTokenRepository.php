@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\userToken;
+
 /**
  * userTokenRepository
  *
@@ -42,5 +44,15 @@ class userTokenRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
         return $result;
+    }
+
+    public function deletedExpiratedTokens()
+    {
+        $results = $this->getEntityManager()->createQueryBuilder()
+            ->delete(userToken::class, 'usertoken')
+            ->where('usertoken.expirationDate < NOW()')
+            ->getQuery()
+            ->execute()
+            ;
     }
 }
