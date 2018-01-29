@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="row my-4">
         <div class="col">
             <h1 class="mb-4">{{ 'homepage.categories'|trans |capitalize }}</h1>
@@ -24,7 +25,11 @@
                 <div class="col-sm-4">
                     <h2>{{ value.name }}</h2>
                     <img src="{{asset('img/product/'~value.image) }}" class="img-fluid" alt="">
-                    <p class="h5 my-2">{{(value.price * app.session.get('queryConvert').taux)|localizedcurrency(app.session.get('queryConvert').code) }}</p>
+                    {% if app.session.has('queryConvert')  %}{#teste si la cle existe si oui on affiche les taux si non on laisse en euros#}
+                    <p class="h5 my-2">{{(value.price * app.session.get('queryConvert')['taux'])|localizedcurrency(app.session.get('queryConvert').code) }}</p>
+                        {% else %}
+                            <p class="h5 my-2">{{value.price |localizedcurrency('EUR') }}</p>
+                    {% endif %}
                     <p>
                         <a href="#" class="btn btn-primary">
                             <span class="fas fa-eye"></span>
@@ -37,6 +42,7 @@
 
             </div>
         </div>
+        {{ dump(app.session.get('queryConvert')) }}
     </div>
 {% endblock %}
 

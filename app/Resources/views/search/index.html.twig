@@ -29,7 +29,7 @@
                         {{ product.translations[app.request.locale].name }}
                     </div>
                     <div class="col-sm-2">
-                        {{ product.price * app.session.get('queryConvert').taux | localizedcurrency(app.session.get('queryConvert').code) }}
+                        {{( product.price * app.session.get('queryConvert')[0])| localizedcurrency(app.session.get('queryConvert').code) }}
                     </div>
                 </div>
 
