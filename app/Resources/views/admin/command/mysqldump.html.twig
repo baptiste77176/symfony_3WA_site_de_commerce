@@ -1,0 +1,11 @@
+{% extends 'admin/base.admin.html.twig' %}
+
+{% block colRight %}
+    <div class="row my-4">
+        <div class="col">
+            <h1 class="mb-4">Export de la base de données</h1>
+{{ dump(result) }}
+
+        </div>
+    </div>
+{% endblock %}
