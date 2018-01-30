@@ -20,20 +20,25 @@
             </form>
         </di>
         <di class="col-sm-8  colDroite">
-            {% for product in products %}
-                <div class="row" >
-                    <div class="col-sm-2">
-                        <img src="{{ asset('img/product/'~product.image) }}" class="img-fluid" alt="">
+            {% if products | length > 0 %}
+                {% for product in products %}
+                    <div class="row" >
+                        <div class="col-sm-2">
+                            <img src="{{ asset('img/product/'~product.image) }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="col-sm-8">
+                            {{ product.translations[app.request.locale].name }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{( product.price)| localizedcurrency('EUR') }}
+                        </div>
                     </div>
-                    <div class="col-sm-8">
-                        {{ product.translations[app.request.locale].name }}
-                    </div>
-                    <div class="col-sm-2">
-                        {{( product.price * app.session.get('queryConvert')[0])| localizedcurrency(app.session.get('queryConvert').code) }}
-                    </div>
-                </div>
 
-            {% endfor %}
+                {% endfor %}
+                {% else %}
+                <p class="alert alert-warning"> il n'y a pas de résultat</p>
+                {% endif %}
+
         </di>
 
     </div>

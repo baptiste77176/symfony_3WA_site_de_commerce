@@ -17,10 +17,25 @@ class SearchController extends Controller
      */
     public function indexAction(Request $request, ManagerRegistry $doctrine):Response
     {
+        //récuperation de la saisie
+        //$request ->request équivalent $_REQUEST
+    $search = $request->request->get('search');
+
+
+        // récupération de la locale
+        $locale = $request->getLocale();
         // récupération des catégories
         $categories = $doctrine->getRepository(Category::class)->findAll();
-        $products = $doctrine->getRepository(Product::class)->findAll();
-
+        //récupération de sproduit
+        //si pas de recherche
+        if (!$search)
+        {
+            $products = $doctrine->getRepository(Product::class)->findAll();
+        }
+        else
+        {
+            $products = $doctrine->getRepository(Product::class)->getSearchResults($search, $locale);
+        }
         return $this->render('search/index.html.twig', [
         'categories' => $categories,
             'products'=> $products

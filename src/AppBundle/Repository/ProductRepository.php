@@ -40,4 +40,22 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->getArrayResult();
         return $result;
     }
+
+    public function getSearchResults(string $search,string $locale):array
+    {
+        $results = $this->createQueryBuilder('product')
+        ->join('product.translations', 'translations')
+        ->where('translations.locale = :locale')
+        ->andWhere('translations.name LIKE :search OR translations.description LIKE :search')
+        ->setParameters([
+            'locale' => $locale,
+            'search' => '%'.$search.'%'
+        ])
+        ->getQuery()
+        ->getResult()
+
+        ;
+        return $results;
+
+    }
 }
